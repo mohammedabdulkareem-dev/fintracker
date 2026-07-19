@@ -56,13 +56,12 @@ export default function Auth() {
       }
 
       navigate("/dashboard");
-
     } else {
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: "http://localhost:8080/dashboard",
+          emailRedirectTo: `${window.location.origin}/dashboard`,
         },
       });
 
@@ -77,10 +76,9 @@ export default function Auth() {
 
       toast({
         title: "Account created",
-        description: "Signup successful!",
+        description:
+          "Please check your email to verify your account before signing in.",
       });
-
-      navigate("/dashboard");
     }
   };
 
@@ -88,7 +86,7 @@ export default function Auth() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "http://localhost:8080/dashboard",
+        redirectTo: `${window.location.origin}/dashboard`,
       },
     });
 
@@ -104,9 +102,7 @@ export default function Auth() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md">
-
         <CardHeader className="text-center">
-
           <div className="mx-auto w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl mb-2">
             $
           </div>
@@ -120,11 +116,9 @@ export default function Auth() {
               ? "Sign in to your FinTracker account"
               : "Get started with FinTracker"}
           </CardDescription>
-
         </CardHeader>
 
         <CardContent className="space-y-4">
-
           <Button
             variant="outline"
             className="w-full"
@@ -135,7 +129,6 @@ export default function Auth() {
           </Button>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
 
@@ -166,15 +159,12 @@ export default function Auth() {
             <Button type="submit" className="w-full">
               {isLogin ? "Sign in" : "Sign up"}
             </Button>
-
           </form>
 
           <p className="text-center text-sm text-muted-foreground">
-
             {isLogin
               ? "Don't have an account?"
               : "Already have an account?"}{" "}
-
             <button
               type="button"
               onClick={() => setIsLogin(!isLogin)}
@@ -182,9 +172,7 @@ export default function Auth() {
             >
               {isLogin ? "Sign up" : "Sign in"}
             </button>
-
           </p>
-
         </CardContent>
       </Card>
     </div>
